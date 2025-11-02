@@ -2,8 +2,11 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-
 @app.route("/")
+def return_hello():
+    return "Hello World!"
+
+@app.route("/home")
 def home():
     return {"message": "Fluffy & Barky Animal Shelter"}
 
