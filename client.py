@@ -1,22 +1,26 @@
 import sys
-
 import requests
 
 OK, ERR, RST = "\033[32m", "\033[31m", "\033[0m"
 
-response = requests.get("http://127.0.0.1:8080/")
-print(response.text)
+base_url = "https://cs-project-2025-dariaaa-ok-production.up.railway.app"
 
-response_code = response.status_code
-print(response_code)
+routes = ["/error", "/home", "/animals", "/animals/dogs", "/animals/cats"]
 
-if response_code == 200:
-    print(f"{OK}All fine!{RST}")
-    print("::notice title=Healthcheck passed::")
-else:
-    print(f"{ERR}Something went wrong!{RST}")
-    print("::error title=Healthcheck failed::")
-    sys.exit(1)
+for route in routes:
+    response = requests.get(base_url + route)
+    print(response.text)
+    print(response.status_code)
+
+    if response.status_code == 200:
+        print(f"{OK}{route} is OK!{RST}")
+        print("::notice title=Healthcheck passed::")
+    else:
+        print(f"{ERR}{route} failed!{RST}")
+        print("::error title=Healthcheck failed::")
+        sys.exit(1)
+
+print(f"{OK}All checked routes are OK!{RST}")
 
 
 
