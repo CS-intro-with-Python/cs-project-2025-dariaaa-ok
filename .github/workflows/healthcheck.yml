@@ -1,0 +1,22 @@
+name: Healthcheck
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  check_server:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build -t animals:latest .
+
+    - name:  Run a container
+      run: docker run -d -p 8080:8080 --name app animals:latest 
+
+    - name: Run a client inside the container
+      run: docker exec app python client.py
