@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ def return_hello():
 
 @app.route("/home")
 def home():
-    return {"message": "Fluffy & Barky Animal Shelter"}
+    return render_template('index.html')
 
 @app.route("/animals")
 def list_animals():

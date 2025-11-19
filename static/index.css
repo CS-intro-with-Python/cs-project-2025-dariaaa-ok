@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    background: #ffc0e6;
+    font-family: Montserrat;
+
+}
+
+.paw-background {
+    background-image: url('https://svgsilh.com/svg/309158.svg');
+    background-size: 150px 150px;
+}
+
+.no-paw {
+    background-color: #ffc0e6;
+}
+
+
+h1, h2 {
+    margin: 10px 0;
+    text-align: center;
+}
+
+h1 {
+    font-family: "Playfair Display";
+}
+
+.gilda-display-regular {
+    font-family: "Gilda Display", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.images {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    margin: 5%;
+    margin-left: 10%;
+}
+
+.images img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.images a p {
+    display: flex;
+    justify-content: center;
+}
+
+.images a {
+    text-decoration: none;
+    color: mintcream;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.images a:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
