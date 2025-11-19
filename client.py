@@ -21,6 +21,3 @@ for route in routes:
         sys.exit(1)
 
 print(f"{OK}All checked routes are OK!{RST}")
-
-
-
