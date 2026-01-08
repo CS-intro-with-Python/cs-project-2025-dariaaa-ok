@@ -3,7 +3,8 @@ import requests
 
 OK, ERR, RST = "\033[32m", "\033[31m", "\033[0m"
 
-base_url = "https://cs-project-2025-dariaaa-ok-production.up.railway.app"
+base_url = "http://127.0.0.1:8080"
+    # "https://cs-project-2025-dariaaa-ok-production.up.railway.app"
 
 routes = ["/", "/dogs", "/cats"]
 
