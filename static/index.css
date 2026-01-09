@@ -40,12 +40,12 @@ h1 {
     gap: 20px;
     width: 100%;
     padding: 20px;
-    margin: 5%;
-    margin-left: 10%;
+    /* margin so images are closer to buttons */
+    margin: 2% 5% 1% 10%;
 }
 
 .images img {
-    width: 300px;
+    width: 350px;
     height: 300px;
     object-fit: cover;
 }
@@ -53,6 +53,7 @@ h1 {
 .images a p {
     display: flex;
     justify-content: center;
+    font-size: 1.1rem;
 }
 
 .images a {
@@ -68,5 +69,66 @@ h1 {
 .images a:hover {
     transform: translateY(-10px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cta-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 8px 0 8px;
+}
+.btn {
+    text-decoration: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    opacity: 0.95;
+}
+
+.btn-dogs {
+    background: linear-gradient(135deg, rgba(43,142,251,0.82), rgba(26, 225, 232, 0.82));
+}
+.btn-cats {
+    background: linear-gradient(135deg, rgba(116, 107, 248, 0.82), rgba(196, 63, 217, 0.82));
+}
+
+/* Header actions (home button) */
+.header-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6px;
+}
+
+/* Home button (icon) */
+.home-btn img {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    opacity: 0.95;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.home-btn:hover img {
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+@media (max-width: 480px) {
+    .cta-row { flex-direction: column; align-items: center; }
+    .btn { width: 100%; max-width: 260px; }
+    .home-btn img { width: 34px; height: 34px; }
 }
 
