@@ -104,7 +104,7 @@ h1 {
     background: linear-gradient(135deg, rgba(116, 107, 248, 0.82), rgba(196, 63, 217, 0.82));
 }
 
-/* Header actions (home button) */
+/* Header actions */
 .header-actions {
     display: flex;
     gap: 10px;
@@ -113,22 +113,73 @@ h1 {
     margin-top: 6px;
 }
 
-/* Home button (icon) */
-.home-btn img {
+/* Shared icon button styling */
+.icon-btn img {
     width: 36px;
     height: 36px;
     border-radius: 8px;
     opacity: 0.95;
     transition: transform 0.15s ease, opacity 0.15s ease;
 }
-.home-btn:hover img {
+
+.icon-btn:hover img {
     transform: translateY(-2px);
     opacity: 1;
 }
+
 
 @media (max-width: 480px) {
     .cta-row { flex-direction: column; align-items: center; }
     .btn { width: 100%; max-width: 260px; }
     .home-btn img { width: 34px; height: 34px; }
+    .footer { font-size: 0.95rem; padding: 8px 6px; }
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    font-weight: 600;
+    color: #fafafa;
+}
+
+/*!* Cat profile page styling *!*/
+.cat-text {
+    flex: 1;
+    padding: 20px;
+}
+
+.cat-text p {
+    margin: 12px 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.cat-text strong {
+    font-weight: 600;
+    color: #333;
+}
+
+.cat-profile {
+    display: flex;
+    gap: 30px;
+    width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    /*  blur effect on pink */
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+        #ffc0e6;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    align-items: flex-start;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+/* Single cat image on detail page */
+.cat-profile > img {
+    width: 450px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 

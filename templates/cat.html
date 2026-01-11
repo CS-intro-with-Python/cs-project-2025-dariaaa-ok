@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="gilda-display-regular no-paw">{{ cat.name }}</h2>
+
+<div class="header-actions">
+    <a href="/cats" class="icon-btn" title="All cats">
+        <img src="https://cdn-icons-png.flaticon.com/512/12482/12482739.png" alt="View All Cats">
+    </a>
+    <a href="/" class="icon-btn" title="Home">
+        <img src="https://images.vexels.com/media/users/3/136189/isolated/svg/8aff3574eabda894d8f7484bf8e81a6e.svg"
+             alt="Home">
+    </a>
+</div>
+
+<div class="cat-profile no-paw">
+    <img src="{{ cat.picture_url }}" alt="{{ cat.name }}">
+
+    <div class="cat-text">
+    <p><strong>Name: </strong> {{ cat.name }}</p>
+    <p><strong>Breed: </strong> {{ cat.breed }}</p>
+    <p><strong>Age: </strong> {{ cat.age }}</p>
+    <p><strong>Gender: </strong>{{ cat.gender }}</p>
+    <p><strong>Weight:</strong> {{ cat.weight }}</p>
+    <p><strong>Arrival date: </strong> {{ cat.arrival_date }}</p>
+
+    <p>
+        <strong>Adoption status: </strong>
+        {% if cat.adopted %}
+            Adopted
+        {% else %}
+            Not adopted
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Rabies vaccinated: </strong>
+        {% if cat.rabies_vaccine %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Feline Leukemia vaccinated: </strong>
+        {% if cat.feline_leukemia_vaccine %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Living indoor: </strong>
+        {% if cat.indoor %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Declawed: </strong>
+        {% if cat.declawed %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+        <p><strong>Favorite toy: </strong>  {{ cat.favorite_toy }}</p>
+
+    <p>
+        <strong>Litter trained: </strong>
+        {% if cat.litter_trained %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+    <p><strong>Character: </strong> {{ cat.character }}</p>
+    <p><strong>Notes: </strong> {{ cat.notes }}</p>
+</div>
+</div>
+{% endblock %}

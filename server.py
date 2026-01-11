@@ -10,14 +10,15 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
+
 class Cat(db.Model):
     __tablename__ = "cat"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     breed = db.Column(db.String(40))
     age = db.Column(db.Integer, db.CheckConstraint('age  between 0 and 40'), nullable=False)
-    gender = db.Column(db.String(6), db.CheckConstraint("gender='male' or gender ='female'"))
-    weight = db.Column(db.Numeric(6,2))
+    gender = db.Column(db.String(6), db.CheckConstraint("gender IN ('male', 'female')"))
+    weight = db.Column(db.Numeric(6, 2))
     arrival_date = db.Column(db.Date, nullable=False)
     adopted = db.Column(db.Boolean, default=False)
     rabies_vaccine = db.Column(db.Boolean, default=False)
@@ -29,8 +30,9 @@ class Cat(db.Model):
     character = db.Column(db.String(50))
     picture_url = db.Column(db.String(200))
     notes = db.Column(db.Text)
+
     def to_dict(self):
-        return{
+        return {
             "id": self.id,
             "name": self.name,
             "breed": self.breed,
@@ -52,29 +54,30 @@ class Cat(db.Model):
             "notes": self.notes
         }
 
+
 class Dog(db.Model):
     __tablename__ = "dog"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     breed = db.Column(db.String(40))
     age = db.Column(db.Integer, db.CheckConstraint('age  between 0 and 31'), nullable=False)
-    gender = db.Column(db.String(6), db.CheckConstraint("gender='male' or gender ='female'"))
-    weight = db.Column(db.Numeric(6,2))
+    gender = db.Column(db.String(6), db.CheckConstraint("gender IN ('male', 'female')"))
+    weight = db.Column(db.Numeric(6, 2))
     arrival_date = db.Column(db.Date, nullable=False)
     adopted = db.Column(db.Boolean, default=False)
     rabies_vaccine = db.Column(db.Boolean, default=False)
     distemper_vaccine = db.Column(db.Boolean, default=False)
     parvo_vaccine = db.Column(db.Boolean, default=False)
     trained = db.Column(db.Boolean, default=False)
-    size = db.Column(db.String(6), db.CheckConstraint("size='small' OR size='medium' OR size='large'"))
+    size = db.Column(db.String(6), db.CheckConstraint("size IN ('small', 'medium', 'large')"))
     good_with_children = db.Column(db.Boolean)
-    energy_level = db.Column(db.String(6), db.CheckConstraint("energy_level='low' OR energy_level='medium' OR energy_level='high'"))
-    character =db.Column(db.String(50))
+    energy_level = db.Column(db.String(6), db.CheckConstraint("energy_level IN ('low', 'medium', 'high')"))
+    character = db.Column(db.String(50))
     picture_url = db.Column(db.String(200))
     notes = db.Column(db.Text)
 
     def to_dict(self):
-        return{
+        return {
             "id": self.id,
             "name": self.name,
             "breed": self.breed,
@@ -96,6 +99,7 @@ class Dog(db.Model):
             "picture_url": self.picture_url,
             "notes": self.notes
         }
+
 
 @app.route("/")
 def get_all_animals():
@@ -138,12 +142,15 @@ def list_cats():
 
 @app.route("/cats/<int:cat_id>")
 def get_cat(cat_id):
-    return {"message": f"Here should be a cat with id {cat_id}"}
+    # cat = Cat.query.filter_by(id=cat_id).first()
+    cat = Cat.query.get_or_404(cat_id)
+    return render_template('cat.html', cat=cat)
 
 
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
-    return {"message": f"Here should be a dog with id {dog_id}"}
+    dog = Dog.query.filter_by(id=dog_id).get_or_404()
+    return render_template('dog.html', dog=dog)
 
 
 @app.route("/dogs/<int:dog_id>/edit", methods=["GET", "POST"])
