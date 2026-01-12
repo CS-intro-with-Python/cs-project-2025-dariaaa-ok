@@ -6,8 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# Use DATABASE_URL if provided (e.g. PostgreSQL in production); fall back to SQLite for CI and local runs
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL") or "sqlite:///shelter.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL",
+    "postgresql://postgres:daria@localhost:5433/shelter"
+)
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
