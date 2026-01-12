@@ -15,8 +15,11 @@ jobs:
     - name: Build the Docker image
       run: docker build -t animals:latest .
 
-    - name:  Run a container
-      run: docker run -d -p 8080:8080 --name app animals:latest
+#    - name:  Run a container
+#      run: docker run -d -p 8080:8080 --name app animals:latest
+
+    - name: Run a container
+      run: docker run -d -p 8080:8080 --name app -e TESTING=1 animals:latest
 
     - name: Wait for server to start
       run: sleep 5
