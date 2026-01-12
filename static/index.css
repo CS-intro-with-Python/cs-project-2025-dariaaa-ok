@@ -103,7 +103,9 @@ h1 {
 .btn-cats {
     background: linear-gradient(135deg, rgba(116, 107, 248, 0.82), rgba(196, 63, 217, 0.82));
 }
-
+.delete-btn {
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.82), rgba(217, 63, 63, 0.82));
+}
 /* Header actions */
 .header-actions {
     display: flex;
@@ -143,23 +145,23 @@ h1 {
 }
 
 /*!* Cat profile page styling *!*/
-.cat-text {
+.animal-text {
     flex: 1;
     padding: 20px;
 }
 
-.cat-text p {
+.animal-text p {
     margin: 12px 0;
     font-size: 1.05rem;
     line-height: 1.6;
 }
 
-.cat-text strong {
+.animal-text strong {
     font-weight: 600;
     color: #333;
 }
 
-.cat-profile {
+.animal-profile {
     display: flex;
     gap: 30px;
     width: 900px;
@@ -175,7 +177,7 @@ h1 {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 /* Single cat image on detail page */
-.cat-profile > img {
+.animal-profile > img {
     width: 450px;
     height: 450px;
     object-fit: cover;
