@@ -1,6 +1,7 @@
-from flask import Flask, render_template, jsonify
+from datetime import datetime
+
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select, union_all
 
 app = Flask(__name__)
 
@@ -142,36 +143,153 @@ def list_cats():
 
 @app.route("/cats/<int:cat_id>")
 def get_cat(cat_id):
-    # cat = Cat.query.filter_by(id=cat_id).first()
     cat = Cat.query.get_or_404(cat_id)
     return render_template('cat.html', cat=cat)
 
-
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
-    dog = Dog.query.filter_by(id=dog_id).get_or_404()
+    dog = Dog.query.get_or_404(dog_id)
     return render_template('dog.html', dog=dog)
+
+@app.route("/cats/<int:cat_id>/edit", methods=["GET", "POST"])
+def edit_cat(cat_id):
+    cat = Cat.query.get_or_404(cat_id)
+    if request.method == "POST":
+        # Update cat
+        cat.name = request.form.get("name")
+        cat.breed = request.form.get("breed") or None
+        cat.age = int(request.form.get("age") or cat.age)
+        cat.gender = request.form.get("gender") or None
+        cat.weight = request.form.get("weight") or None
+        cat.arrival_date = datetime.strptime(request.form.get("arrival_date"), "%Y-%m-%d").date()
+        cat.adopted = "adopted" in request.form
+        cat.rabies_vaccine = "rabies_vaccine" in request.form
+        cat.feline_leukemia_vaccine = "feline_leukemia_vaccine" in request.form
+        cat.indoor = "indoor" in request.form
+        cat.declawed = "declawed" in request.form
+        cat.litter_trained = "litter_trained" in request.form
+
+        cat.favorite_toy = request.form.get("favorite_toy") or None
+        cat.character = request.form.get("character") or None
+        cat.notes = request.form.get("notes") or None
+        cat.picture_url = request.form.get("picture_url") or cat.picture_url
+
+        db.session.commit()
+        return redirect(url_for("get_cat", cat_id=cat.id))
+
+    return render_template("cat_edit.html", cat=cat)
+
 
 
 @app.route("/dogs/<int:dog_id>/edit", methods=["GET", "POST"])
 def edit_dog(dog_id):
-    return {"message": f"Edit a dog with id {dog_id} and redirect to get a dog"}
+    dog = Dog.query.get_or_404(dog_id)
+    if request.method == "POST":
+        dog.name = request.form.get("name")
+        dog.breed = request.form.get("breed") or None
+        dog.age = int(request.form.get("age"))
+        dog.gender = request.form.get("gender") or None
+        dog.weight = request.form.get("weight") or None
 
+        dog.arrival_date = datetime.strptime(
+            request.form.get("arrival_date"), "%Y-%m-%d"
+        ).date()
 
-@app.route("/cats/<int:cat_id>/edit", methods=["GET", "POST"])
-def edit_cat(cat_id):
-    return {"message": f"Edit a cat with id {cat_id} and redirect to get a cat"}
+        dog.adopted = "adopted" in request.form
+        dog.rabies_vaccine = "rabies_vaccine" in request.form
+        dog.distemper_vaccine = "distemper_vaccine" in request.form
+        dog.parvo_vaccine = "parvo_vaccine" in request.form
+
+        dog.trained = "trained" in request.form
+        dog.good_with_children = "good_with_children" in request.form
+
+        dog.size = request.form.get("size") or None
+        dog.energy_level = request.form.get("energy_level") or None
+        dog.character = request.form.get("character") or None
+        dog.notes = request.form.get("notes") or None
+        dog.picture_url = request.form.get("picture_url") or dog.picture_url
+
+        db.session.commit()
+        return redirect(url_for("get_dog", dog_id=dog.id))
+
+    return render_template("dog_edit.html", dog=dog)
 
 
 @app.route("/dogs/<int:dog_id>/delete", methods=["POST"])
 def delete_dog(dog_id):
-    return {"message": f"Delete a dog with id {dog_id} and redirect to the list of dogs"}
+    dog = Dog.query.get_or_404(dog_id)
+    db.session.delete(dog)
+    db.session.commit()
+    return redirect(url_for("list_dogs"))
 
 
 @app.route("/cats/<int:cat_id>/delete", methods=["POST"])
 def delete_cat(cat_id):
-    return {"message": f"Delete a cat with id {cat_id} and redirect to the list of cats"}
+    cat = Cat.query.get_or_404(cat_id)
+    db.session.delete(cat)
+    db.session.commit()
+    return redirect(url_for("list_cats"))
 
+
+@app.route("/cats/add", methods=["GET", "POST"])
+def add_cat():
+    if request.method == "POST":
+        cat = Cat(
+            name=request.form.get("name"),
+            breed=request.form.get("breed") or None,
+            age=int(request.form.get("age")),
+            gender=request.form.get("gender") or None,
+            weight=request.form.get("weight") or None,
+            arrival_date=datetime.strptime(request.form.get("arrival_date"), "%Y-%m-%d").date(),
+            adopted="adopted" in request.form,
+            rabies_vaccine="rabies_vaccine" in request.form,
+            feline_leukemia_vaccine="feline_leukemia_vaccine" in request.form,
+            indoor="indoor" in request.form,
+            declawed="declawed" in request.form,
+            litter_trained="litter_trained" in request.form,
+            favorite_toy=request.form.get("favorite_toy") or None,
+            character=request.form.get("character") or None,
+            notes=request.form.get("notes") or None,
+            picture_url=request.form.get("picture_url") or None
+        )
+        db.session.add(cat)
+        db.session.commit()
+        return redirect(url_for('get_cat', cat_id=cat.id))
+
+    return render_template('add_cat.html')
+
+@app.route("/dogs/add", methods=["GET", "POST"])
+def add_dog():
+    if request.method == "POST":
+        dog = Dog(
+            name=request.form.get("name"),
+            breed=request.form.get("breed") or None,
+            age=int(request.form.get("age")),
+            gender=request.form.get("gender") or None,
+            weight=request.form.get("weight") or None,
+            arrival_date=datetime.strptime(
+                request.form.get("arrival_date"), "%Y-%m-%d"
+            ).date(),
+
+            adopted="adopted" in request.form,
+            rabies_vaccine="rabies_vaccine" in request.form,
+            distemper_vaccine="distemper_vaccine" in request.form,
+            parvo_vaccine="parvo_vaccine" in request.form,
+            trained="trained" in request.form,
+            good_with_children="good_with_children" in request.form,
+
+            size=request.form.get("size") or None,
+            energy_level=request.form.get("energy_level") or None,
+            character=request.form.get("character") or None,
+            notes=request.form.get("notes") or None,
+            picture_url=request.form.get("picture_url") or None
+        )
+
+        db.session.add(dog)
+        db.session.commit()
+        return redirect(url_for("get_dog", dog_id=dog.id))
+
+    return render_template("add_dog.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
