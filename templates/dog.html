@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="gilda-display-regular no-paw">{{ dog.name }}</h2>
+
+<div class="header-actions">
+    <a href="/dogs" class="icon-btn" title="All dogs">
+        <img src="https://freesvg.org/img/lemmling_Cartoon_dog.png" alt="View All Dogs">
+    </a>
+    <a href="/" class="icon-btn" title="Home">
+        <img src="https://images.vexels.com/media/users/3/136189/isolated/svg/8aff3574eabda894d8f7484bf8e81a6e.svg"
+             alt="Home">
+    </a>
+</div>
+
+<div class="animal-profile no-paw">
+    <img src="{{ dog.picture_url }}" alt="{{ dog.name }}">
+
+    <div class="animal-text">
+        <p><strong>Name: </strong> {{ dog.name }}</p>
+        <p><strong>Breed: </strong> {{ dog.breed or 'Unknown'}}</p>
+        <p><strong>Age: </strong> {{ dog.age }}</p>
+        <p><strong>Gender: </strong>{{ dog.gender or 'Unknown'}}</p>
+        <p><strong>Weight:</strong> {{ dog.weight if dog.weight is not none else 'Unknown'}}</p>
+        <p><strong>Arrival date: </strong> {{ dog.arrival_date }}</p>
+
+        <p>
+            <strong>Adoption status: </strong>
+            {% if dog.adopted %}
+            Adopted
+            {% else %}
+            Not adopted
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Rabies vaccinated: </strong>
+            {% if dog.rabies_vaccine %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Distemper vaccinated: </strong>
+            {% if dog.distemper_vaccine %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Parvo vaccinated: </strong>
+            {% if dog.parvo_vaccine %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Trained: </strong>
+            {% if dog.trained %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+        </p>
+
+        <p><strong>Size: </strong> {{ dog.size or '—' }}</p>
+
+        <p>
+            <strong>Good with children:</strong>
+            {% if dog.good_with_children is true %}
+            Yes
+            {% elif dog.good_with_children is false %}
+            No
+            {% else %}
+            —
+            {% endif %}
+        </p>
+
+        <p><strong>Energy level: </strong> {{ dog.energy_level or '—'}}</p>
+        <p><strong>Character: </strong> {{ dog.character or '—'}}</p>
+        {% if dog.notes %}
+        <p><strong>Notes:</strong> {{ dog.notes }}</p>
+        {% endif %}
+        <a href="{{ url_for('edit_dog', dog_id=dog.id) }}" class="btn btn-cats">Edit</a>
+        <form action="{{ url_for('delete_dog', dog_id=dog.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn delete-btn">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
