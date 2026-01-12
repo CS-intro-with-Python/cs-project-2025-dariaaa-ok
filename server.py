@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for
@@ -5,9 +6,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:daria@localhost:5433/shelter"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:daria@localhost:5433/shelter"
+if os.environ.get("TESTING"):
+    # Use SQLite for CI/testing
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+else:
+    # Use PostgreSQL for local/prod
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:daria@localhost:5433/shelter"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 
 db = SQLAlchemy(app)
 
@@ -292,4 +300,4 @@ def add_dog():
     return render_template("add_dog.html")
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=8080)
