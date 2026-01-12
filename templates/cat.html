@@ -13,15 +13,15 @@
     </a>
 </div>
 
-<div class="cat-profile no-paw">
+<div class="animal-profile no-paw">
     <img src="{{ cat.picture_url }}" alt="{{ cat.name }}">
 
-    <div class="cat-text">
+    <div class="animal-text" id="cat-info">
     <p><strong>Name: </strong> {{ cat.name }}</p>
-    <p><strong>Breed: </strong> {{ cat.breed }}</p>
+    <p><strong>Breed: </strong> {{ cat.breed or 'Unknown'}}</p>
     <p><strong>Age: </strong> {{ cat.age }}</p>
-    <p><strong>Gender: </strong>{{ cat.gender }}</p>
-    <p><strong>Weight:</strong> {{ cat.weight }}</p>
+    <p><strong>Gender: </strong>{{ cat.gender or 'Unknown'}}</p>
+    <p><strong>Weight:</strong> {{ cat.weight if cat.weight is not none else 'Unknown' }}</p>
     <p><strong>Arrival date: </strong> {{ cat.arrival_date }}</p>
 
     <p>
@@ -53,11 +53,13 @@
 
     <p>
         <strong>Living indoor: </strong>
-        {% if cat.indoor %}
+         {% if cat.indoor is true %}
             Yes
-        {% else %}
+            {% elif cat.indoor is false %}
             No
-        {% endif %}
+            {% else %}
+            —
+            {% endif %}
     </p>
 
     <p>
@@ -69,7 +71,7 @@
         {% endif %}
     </p>
 
-        <p><strong>Favorite toy: </strong>  {{ cat.favorite_toy }}</p>
+        <p><strong>Favorite toy: </strong>  {{ cat.favorite_toy or '—'}}</p>
 
     <p>
         <strong>Litter trained: </strong>
@@ -80,8 +82,22 @@
         {% endif %}
     </p>
 
-    <p><strong>Character: </strong> {{ cat.character }}</p>
-    <p><strong>Notes: </strong> {{ cat.notes }}</p>
-</div>
+    <p><strong>Character: </strong> {{ cat.character or '—'}}</p>
+    {% if cat.notes %}
+        <p><strong>Notes:</strong> {{ cat.notes }}</p>
+        {% endif %}
+
+        <a href="{{ url_for('edit_cat', cat_id=cat.id) }}" class="btn btn-cats">Edit</a>
+        <form action="{{ url_for('delete_cat', cat_id=cat.id) }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn delete-btn">Delete</button>
+</form>
+
+
+    </div>
+
 </div>
 {% endblock %}
+
+
+
+
