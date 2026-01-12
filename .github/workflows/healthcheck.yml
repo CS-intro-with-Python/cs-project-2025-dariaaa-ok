@@ -23,6 +23,60 @@
 #
 #    - name: Run a client inside the container
 #      run: docker exec app python client.py
+#name: Healthcheck
+#
+#on:
+#  push:
+#    branches: [ "main" ]
+#
+#jobs:
+#  check_server:
+#    runs-on: ubuntu-latest
+#
+#    services:
+#      postgres:
+#        image: postgres:15
+#        env:
+#          POSTGRES_USER: postgres
+#          POSTGRES_PASSWORD: testpass
+#          POSTGRES_DB: shelter_test
+#        ports:
+#          - 5432:5432
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
+#
+#    steps:
+#    - uses: actions/checkout@v4
+#
+#    - name: Set up Python
+#      uses: actions/setup-python@v4
+#      with:
+#        python-version: '3.11'
+#
+#    - name: Install dependencies
+#      run: |
+#        pip install -r requirements.txt
+#
+#    - name: Create database tables
+#      env:
+#        DATABASE_URL: postgresql://postgres:testpass@localhost:5432/shelter_test
+#      run: |
+#        python -c "from server import app, db; app.app_context().push(); db.create_all()"
+#
+#    - name: Run server
+#      env:
+#        DATABASE_URL: postgresql://postgres:testpass@localhost:5432/shelter_test
+#      run: |
+#        python server.py &
+#        sleep 5
+#
+#    - name: Run healthcheck
+#      run: python client.py
+
+
 name: Healthcheck
 
 on:
@@ -33,45 +87,17 @@ jobs:
   check_server:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: testpass
-          POSTGRES_DB: shelter_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+    - name: Start services with Docker Compose
+      run: docker-compose up -d
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-
-    - name: Create database tables
-      env:
-        DATABASE_URL: postgresql://postgres:testpass@localhost:5432/shelter_test
-      run: |
-        python -c "from server import app, db; app.app_context().push(); db.create_all()"
-
-    - name: Run server
-      env:
-        DATABASE_URL: postgresql://postgres:testpass@localhost:5432/shelter_test
-      run: |
-        python server.py &
-        sleep 5
+    - name: Wait for services
+      run: sleep 10
 
     - name: Run healthcheck
-      run: python client.py
+      run: docker-compose exec -T web python client.py
+
+    - name: Stop services
+      run: docker-compose down
