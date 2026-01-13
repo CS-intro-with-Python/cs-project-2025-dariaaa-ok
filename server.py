@@ -1,10 +1,23 @@
 import os
 from datetime import datetime
 
+import flask_sqlalchemy
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from logger import setup_logger
 
 app = Flask(__name__)
+setup_logger(app)
+
+@app.before_request
+def log_request():
+    app.logger.info(
+        "Method=%s Path=%s ClientIP=%s",
+        request.method,
+        request.path,
+        request.remote_addr
+    )
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
     "DATABASE_URL",
@@ -12,6 +25,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
 )
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ECHO"] = True
 
 
 db = SQLAlchemy(app)
