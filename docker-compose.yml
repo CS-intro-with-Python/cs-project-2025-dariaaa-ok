@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # First service: PostgreSQL database
   db:
     image: postgres:15
     environment:
@@ -15,14 +16,17 @@ services:
       timeout: 5s
       retries: 5
 
+# Second service - my app
   web:
     build: .
     ports:
       - "8080:8080"
     environment:
+      # Set DATABASE_URL to point to 'db' service
       DATABASE_URL: postgresql://postgres:testpass@db:5432/shelter
     depends_on:
       db:
+        #Web waits until database passes the health test
         condition: service_healthy
     command: >
       sh -c "python -c 'from server import app, db; app.app_context().push(); db.create_all()' && python server.py"
