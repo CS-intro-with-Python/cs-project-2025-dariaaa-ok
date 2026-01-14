@@ -29,4 +29,4 @@ services:
         #Web waits until database passes the health test
         condition: service_healthy
     command: >
-      sh -c "python init_db.py && python server.py"
+      sh -c "python -c 'from server import app, db; app.app_context().push(); db.create_all()' && python server.py"
