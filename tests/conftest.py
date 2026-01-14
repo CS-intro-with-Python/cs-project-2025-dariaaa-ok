@@ -2,21 +2,23 @@ import pytest
 import sys
 import os
 
-# Add the project root to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from server import app, db
+from server import app
+from flask_sqlalchemy import SQLAlchemy
 
-os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
 
-    with app.test_client() as client:
+    # Create a new db instance for testing
+    db = SQLAlchemy(app)
+
+    with app.test_client() as test_client:
         with app.app_context():
             db.create_all()
-        yield client
+        yield test_client
         with app.app_context():
             db.drop_all()
