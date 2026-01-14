@@ -6,7 +6,7 @@ OK, ERR, RST = "\033[32m", "\033[31m", "\033[0m"
 base_url = "http://127.0.0.1:8080"
     # "https://cs-project-2025-dariaaa-ok-production.up.railway.app"
 
-routes = ["/", "/dogs", "/cats", "/dogs/add", "/cats/add"]
+routes = ["/", "/dogs", "/cats", "/dogs/5", "/cats/7", "/dogs/3/edit", "/cats/6/edit", "/dogs/add", "/cats/add"]
 
 for route in routes:
     response = requests.get(base_url + route)
