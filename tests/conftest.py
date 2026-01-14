@@ -4,7 +4,6 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Set SQLite BEFORE importing server
 os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 
 from server import app, db
