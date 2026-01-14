@@ -72,10 +72,6 @@ class Dog(db.Model):
     character = db.Column(db.String(50))
     picture_url = db.Column(db.String(200))
     notes = db.Column(db.Text)
-#
-#
-# with app.app_context():
-#     db.create_all()
 
 @app.route("/")
 def get_all_animals():
