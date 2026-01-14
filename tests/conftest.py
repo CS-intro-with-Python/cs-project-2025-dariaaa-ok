@@ -4,17 +4,15 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from server import app
-from flask_sqlalchemy import SQLAlchemy
+# Set SQLite BEFORE importing server
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+
+from server import app, db
 
 
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-
-    # Create a new db instance for testing
-    db = SQLAlchemy(app)
 
     with app.test_client() as test_client:
         with app.app_context():
