@@ -7,6 +7,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from server import app, db
 
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
@@ -16,3 +18,5 @@ def client():
         with app.app_context():
             db.create_all()
         yield client
+        with app.app_context():
+            db.drop_all()
