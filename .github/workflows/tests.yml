@@ -11,10 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run unit tests
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pytest tests/unit
+
+      - name: Run unit tests
+        run: pytest tests/unit
 
       - name: Start services
         run: docker compose up -d
