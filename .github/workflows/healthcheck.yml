@@ -17,29 +17,6 @@ jobs:
       - name: Wait for services
         run: sleep 10
 
-      - name: Add test data
-        run: |
-          docker compose exec -T web python -c "
-          from server import app, db, Cat, Dog
-          from datetime import date
-          with app.app_context():
-        for i in range(1, 11):
-          cat = Cat(
-          name=f'TestCat{i}',
-          age=i,
-          arrival_date=date.today(),
-          picture_url='https://...'
-          )
-          dog = Dog(
-          name=f'TestDog{i}',
-          age=i,
-          arrival_date=date.today(),
-          picture_url='https://...'
-          )
-          db.session.add(cat)
-          db.session.add(dog)
-          db.session.commit()
-
       - name: Run healthcheck
         run: docker compose exec -T web python client.py
 
