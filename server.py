@@ -51,29 +51,6 @@ class Cat(db.Model):
     picture_url = db.Column(db.String(200))
     notes = db.Column(db.Text)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "breed": self.breed,
-            "age": self.age,
-            "gender": self.gender,
-            "weight": self.weight,
-            "arrival_date": self.arrival_date,
-            # "weight": float(self.weight) if self.weight else None,  # Convert to float
-            # "arrival_date": self.arrival_date.isoformat() if self.arrival_date else None,  # Convert to string
-            "adopted": self.adopted,
-            "rabies_vaccine": self.rabies_vaccine,
-            "feline_leukemia_vaccine": self.feline_leukemia_vaccine,
-            "indoor": self.indoor,
-            "declawed": self.declawed,
-            "favorite_toy": self.favorite_toy,
-            "litter_trained": self.litter_trained,
-            "character": self.character,
-            "picture_url": self.picture_url,
-            "notes": self.notes
-        }
-
 
 class Dog(db.Model):
     __tablename__ = "dog"
@@ -96,30 +73,9 @@ class Dog(db.Model):
     picture_url = db.Column(db.String(200))
     notes = db.Column(db.Text)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "breed": self.breed,
-            "age": self.age,
-            "gender": self.gender,
-            "weight": self.weight,
-            "arrival_date": self.arrival_date,
-            # "weight": float(self.weight) if self.weight else None,  # Convert to float
-            # "arrival_date": self.arrival_date.isoformat() if self.arrival_date else None,  # Convert to string
-            "adopted": self.adopted,
-            "rabies_vaccine": self.rabies_vaccine,
-            "distemper_vaccine": self.distemper_vaccine,
-            "parvo_vaccine": self.parvo_vaccine,
-            "trained": self.trained,
-            "size": self.size,
-            "good_with_children": self.good_with_children,
-            "energy_level": self.energy_level,
-            "character": self.character,
-            "picture_url": self.picture_url,
-            "notes": self.notes
-        }
 
+with app.app_context():
+    db.create_all()
 
 @app.route("/")
 def get_all_animals():
@@ -271,6 +227,9 @@ def add_cat():
             notes=request.form.get("notes") or None,
             picture_url=request.form.get("picture_url") or None
         )
+
+        if cat.age < 0 or cat.age > 40:
+            return "Invalid age", 400
         db.session.add(cat)
         db.session.commit()
         return redirect(url_for('get_cat', cat_id=cat.id))
@@ -304,6 +263,8 @@ def add_dog():
             picture_url=request.form.get("picture_url") or None
         )
 
+        if dog.age < 0 or dog.age > 40:
+            return "Invalid age", 400
         db.session.add(dog)
         db.session.commit()
         return redirect(url_for("get_dog", dog_id=dog.id))
