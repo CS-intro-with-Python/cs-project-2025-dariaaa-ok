@@ -10,3 +10,10 @@ def test_cat_age_invalid(client):
 def test_cat_not_found(client):
     response = client.get("/cats/999999")
     assert response.status_code == 404
+
+
+def test_missing_required_field(client):
+    response = client.post("/cats/add", data={
+        "age": 5,
+    })
+    assert response.status_code == 400
