@@ -1,7 +1,5 @@
 import os
 from datetime import datetime
-
-import flask_sqlalchemy
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from logger import setup_logger
@@ -26,7 +24,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
-
 
 db = SQLAlchemy(app)
 
@@ -259,7 +256,7 @@ def add_dog():
             picture_url=request.form.get("picture_url") or None
         )
 
-        if dog.age < 0 or dog.age > 40:
+        if dog.age < 0 or dog.age > 31:
             return "Invalid age", 400
         db.session.add(dog)
         db.session.commit()

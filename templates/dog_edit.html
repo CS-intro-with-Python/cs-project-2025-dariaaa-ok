@@ -16,8 +16,8 @@
             <label>Gender:
                 <select name="gender">
                     <option value="">--Select--</option>
-                    <option value="male" {% if dog.gender == 'male' %}selected{% endif %}>Male</option>
-                    <option value="female" {% if dog.gender == 'female' %}selected{% endif %}>Female</option>
+                    <option value="male" {% if dog.gender=='male' %}selected{% endif %}>Male</option>
+                    <option value="female" {% if dog.gender=='female' %}selected{% endif %}>Female</option>
                 </select>
             </label>
         </p>
@@ -54,9 +54,9 @@
             <label>Size:
                 <select name="size">
                     <option value="">--Select--</option>
-                    <option value="small" {% if dog.size == 'small' %}selected{% endif %}>Small</option>
-                    <option value="medium" {% if dog.size == 'medium' %}selected{% endif %}>Medium</option>
-                    <option value="large" {% if dog.size == 'large' %}selected{% endif %}>Large</option>
+                    <option value="small" {% if dog.size=='small' %}selected{% endif %}>Small</option>
+                    <option value="medium" {% if dog.size=='medium' %}selected{% endif %}>Medium</option>
+                    <option value="large" {% if dog.size=='large' %}selected{% endif %}>Large</option>
                 </select>
             </label>
         </p>
@@ -69,9 +69,9 @@
             <label>Energy level:
                 <select name="energy_level">
                     <option value="">--Select--</option>
-                    <option value="low" {% if dog.energy_level == 'low' %}selected{% endif %}>Low</option>
-                    <option value="medium" {% if dog.energy_level == 'medium' %}selected{% endif %}>Medium</option>
-                    <option value="high" {% if dog.energy_level == 'high' %}selected{% endif %}>High</option>
+                    <option value="low" {% if dog.energy_level=='low' %}selected{% endif %}>Low</option>
+                    <option value="medium" {% if dog.energy_level=='medium' %}selected{% endif %}>Medium</option>
+                    <option value="high" {% if dog.energy_level=='high' %}selected{% endif %}>High</option>
                 </select>
             </label>
         </p>

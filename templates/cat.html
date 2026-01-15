@@ -17,80 +17,80 @@
     <img src="{{ cat.picture_url }}" alt="{{ cat.name }}">
 
     <div class="animal-text" id="cat-info">
-    <p><strong>Name: </strong> {{ cat.name }}</p>
-    <p><strong>Breed: </strong> {{ cat.breed or 'Unknown'}}</p>
-    <p><strong>Age: </strong> {{ cat.age }}</p>
-    <p><strong>Gender: </strong>{{ cat.gender or 'Unknown'}}</p>
-    <p><strong>Weight:</strong> {{ cat.weight if cat.weight is not none else 'Unknown' }}</p>
-    <p><strong>Arrival date: </strong> {{ cat.arrival_date }}</p>
+        <p><strong>Name: </strong> {{ cat.name }}</p>
+        <p><strong>Breed: </strong> {{ cat.breed or 'Unknown'}}</p>
+        <p><strong>Age: </strong> {{ cat.age }}</p>
+        <p><strong>Gender: </strong>{{ cat.gender or 'Unknown'}}</p>
+        <p><strong>Weight:</strong> {{ cat.weight if cat.weight is not none else 'Unknown' }}</p>
+        <p><strong>Arrival date: </strong> {{ cat.arrival_date }}</p>
 
-    <p>
-        <strong>Adoption status: </strong>
-        {% if cat.adopted %}
+        <p>
+            <strong>Adoption status: </strong>
+            {% if cat.adopted %}
             Adopted
-        {% else %}
+            {% else %}
             Not adopted
-        {% endif %}
-    </p>
+            {% endif %}
+        </p>
 
-    <p>
-        <strong>Rabies vaccinated: </strong>
-        {% if cat.rabies_vaccine %}
+        <p>
+            <strong>Rabies vaccinated: </strong>
+            {% if cat.rabies_vaccine %}
             Yes
-        {% else %}
+            {% else %}
             No
-        {% endif %}
-    </p>
+            {% endif %}
+        </p>
 
-    <p>
-        <strong>Feline Leukemia vaccinated: </strong>
-        {% if cat.feline_leukemia_vaccine %}
+        <p>
+            <strong>Feline Leukemia vaccinated: </strong>
+            {% if cat.feline_leukemia_vaccine %}
             Yes
-        {% else %}
+            {% else %}
             No
-        {% endif %}
-    </p>
+            {% endif %}
+        </p>
 
-    <p>
-        <strong>Living indoor: </strong>
-         {% if cat.indoor is true %}
+        <p>
+            <strong>Living indoor: </strong>
+            {% if cat.indoor is true %}
             Yes
             {% elif cat.indoor is false %}
             No
             {% else %}
             —
             {% endif %}
-    </p>
+        </p>
 
-    <p>
-        <strong>Declawed: </strong>
-        {% if cat.declawed %}
+        <p>
+            <strong>Declawed: </strong>
+            {% if cat.declawed %}
             Yes
-        {% else %}
+            {% else %}
             No
-        {% endif %}
-    </p>
+            {% endif %}
+        </p>
 
-        <p><strong>Favorite toy: </strong>  {{ cat.favorite_toy or '—'}}</p>
+        <p><strong>Favorite toy: </strong> {{ cat.favorite_toy or '—'}}</p>
 
-    <p>
-        <strong>Litter trained: </strong>
-        {% if cat.litter_trained %}
+        <p>
+            <strong>Litter trained: </strong>
+            {% if cat.litter_trained %}
             Yes
-        {% else %}
+            {% else %}
             No
-        {% endif %}
-    </p>
+            {% endif %}
+        </p>
 
-    <p><strong>Character: </strong> {{ cat.character or '—'}}</p>
-    {% if cat.notes %}
+        <p><strong>Character: </strong> {{ cat.character or '—'}}</p>
+        {% if cat.notes %}
         <p><strong>Notes:</strong> {{ cat.notes }}</p>
         {% endif %}
 
         <a href="{{ url_for('edit_cat', cat_id=cat.id) }}" class="btn btn-cats">Edit</a>
         <form action="{{ url_for('delete_cat', cat_id=cat.id) }}" method="POST" style="display:inline;">
-    <button type="submit" class="btn delete-btn">Delete</button>
-</form>
+            <button type="submit" class="btn delete-btn">Delete</button>
+        </form>
 
 
     </div>

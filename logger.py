@@ -9,7 +9,3 @@ def setup_logger(app):
     if not app.logger.handlers:
         app.logger.addHandler(handler)
     logging.getLogger("werkzeug").setLevel(logging.WARNING)
-
-
-
-

@@ -3,12 +3,13 @@
 {% block content %}
 <h2 class="gilda-display-regular no-paw">Our Dogs</h2>
 <a href="/" class="icon-btn" title="Home">
-    <img src="https://images.vexels.com/media/users/3/136189/isolated/svg/8aff3574eabda894d8f7484bf8e81a6e.svg" alt="Home">
+    <img src="https://images.vexels.com/media/users/3/136189/isolated/svg/8aff3574eabda894d8f7484bf8e81a6e.svg"
+         alt="Home">
 </a>
 <a href="{{ url_for('add_dog') }}" class="btn btn-cats">Add dog</a>
 <div class="images no-paw">
     {% for dog in dogs %}
-        <a href="/dogs/{{dog.id}}">
+    <a href="/dogs/{{dog.id}}">
         <img src="{{dog.picture_url}}" alt="{{dog.name}}" width=100>
         <p>{{dog.name}}</p>
     </a>

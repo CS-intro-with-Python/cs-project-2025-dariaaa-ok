@@ -168,7 +168,7 @@
 
 ---
 
-## Route "Edit cat's information" (/cats/<int:cat_id>/edit) GET 
+## Route "Edit cat's information" (/cats/<int:cat_id>/edit) GET
 
 **Shows:** Form pre-filled with the cat’s current information.
 
