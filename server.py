@@ -142,6 +142,9 @@ def edit_cat(cat_id):
         cat.notes = request.form.get("notes") or None
         cat.picture_url = request.form.get("picture_url") or cat.picture_url
 
+        if cat.age < 0 or cat.age >40:
+            return "Invalid age", 400
+
         db.session.commit()
         return redirect(url_for("get_cat", cat_id=cat.id))
 
@@ -177,6 +180,9 @@ def edit_dog(dog_id):
         dog.notes = request.form.get("notes") or None
         dog.picture_url = request.form.get("picture_url") or dog.picture_url
 
+        if dog.age < 0 or dog.age > 31:
+            return "Invalid age", 400
+
         db.session.commit()
         return redirect(url_for("get_dog", dog_id=dog.id))
 
@@ -202,13 +208,25 @@ def delete_cat(cat_id):
 @app.route("/cats/add", methods=["GET", "POST"])
 def add_cat():
     if request.method == "POST":
+        try:
+            age = int(request.form.get("age"))
+            arrival_date = datetime.strptime(request.form.get("arrival_date"), "%Y-%m-%d").date()
+        except (ValueError, TypeError):
+            return "Invalid input", 400
+
+        if age < 0 or age > 31:
+            return "Invalid age", 400
+
+        if not request.form.get("name"):
+            return "Name is required", 400
+
         cat = Cat(
             name=request.form.get("name"),
             breed=request.form.get("breed") or None,
-            age=int(request.form.get("age")),
+            age=age,
             gender=request.form.get("gender") or None,
             weight=request.form.get("weight") or None,
-            arrival_date=datetime.strptime(request.form.get("arrival_date"), "%Y-%m-%d").date(),
+            arrival_date=arrival_date,
             adopted="adopted" in request.form,
             rabies_vaccine="rabies_vaccine" in request.form,
             feline_leukemia_vaccine="feline_leukemia_vaccine" in request.form,
@@ -221,8 +239,6 @@ def add_cat():
             picture_url=request.form.get("picture_url") or None
         )
 
-        if cat.age < 0 or cat.age > 40:
-            return "Invalid age", 400
         db.session.add(cat)
         db.session.commit()
         return redirect(url_for('get_cat', cat_id=cat.id))
@@ -232,16 +248,25 @@ def add_cat():
 @app.route("/dogs/add", methods=["GET", "POST"])
 def add_dog():
     if request.method == "POST":
+        try:
+            age = int(request.form.get("age"))
+            arrival_date = datetime.strptime(request.form.get("arrival_date"), "%Y-%m-%d").date()
+        except (ValueError, TypeError):
+            return "Invalid input", 400
+
+        if age < 0 or age > 31:
+            return "Invalid age", 400
+
+        if not request.form.get("name"):
+            return "Name is required", 400
+
         dog = Dog(
             name=request.form.get("name"),
             breed=request.form.get("breed") or None,
-            age=int(request.form.get("age")),
+            age=age,
             gender=request.form.get("gender") or None,
             weight=request.form.get("weight") or None,
-            arrival_date=datetime.strptime(
-                request.form.get("arrival_date"), "%Y-%m-%d"
-            ).date(),
-
+            arrival_date=arrival_date,
             adopted="adopted" in request.form,
             rabies_vaccine="rabies_vaccine" in request.form,
             distemper_vaccine="distemper_vaccine" in request.form,
@@ -256,8 +281,6 @@ def add_dog():
             picture_url=request.form.get("picture_url") or None
         )
 
-        if dog.age < 0 or dog.age > 31:
-            return "Invalid age", 400
         db.session.add(dog)
         db.session.commit()
         return redirect(url_for("get_dog", dog_id=dog.id))
