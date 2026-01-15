@@ -2,28 +2,29 @@
 
 ## Route "All Animals" (/) GET
 
-**Shows:** Homepage with all animals listed (cats and dogs).
+**Shows:** Homepage with all animals combined (cats and dogs).
 
 **Actions:**
 
-* Click on an animal name or picture to view details (redirects to /dogs/<id> or /cats/<id>).
-* Click on "Dogs" or "Cats" buttons to filter the list (redirects to /dogs or /cats).
+* Click an animal image or name → redirects to /dogs/<id> or /cats/<id>
+* Click _View Dogs_ -> /dogs
+* Click _View Cats_ -> /cats
 
 **Elements:**
 
 * List of animal names with images.
-* Filter buttons: Dogs, Cats.
+* Buttons: _View Dogs_, _View Cats_
 
 ---
 
 ## Route "All dogs" (/dogs) GET
 
-**Shows:** List of all dogs.
+**Shows:** List of all dogs (name+ picture).
 
 **Actions:**
 
-* Click on a dog's name or picture to view details (redirects to /dogs/<id>).
-* Optional: filter dogs by name.
+* Click a dog to view details (redirects to /dogs/<id>).
+* Navigate back to home.
 
 **Elements:**
 
@@ -37,8 +38,8 @@
 
 **Actions:**
 
-* Click on a cat's name or picture to view details (redirects to /cats/<id>).
-* Optional: filter cats by name.
+* Click a cat to view details (redirects to /cats/<id>).
+* Navigate back to home.
 
 **Elements:**
 
@@ -46,73 +47,155 @@
 
 ---
 
-## Route "A specific dog" (/dogs/<int:dog_id>) GET
+## Route "Add a new dog" (/dogs/add) GET
 
-**Shows:** Details page for a single dog.
+**Shows:** Form for adding a new dog to the shelter.
 
 **Actions:**
 
-* Edit or delete this dog.
+* Fill out the form
+* Submit to create a dog
+* _Cancel_ -> redirects to /dogs
 
 **Elements:**
 
-* Name, picture, and other info.
-* "Edit" button -> redirects to /dogs/<dog_id>/edit.
-* "Delete" button -> submits POST to /dogs/<dog_id>/delete.
+* Form fields (name, age, breed, vaccines, size, etc.)
+* _Add Dog_ button
+* _Cancel_ button
+
+---
+
+## Route "Add a new dog" (/dogs/add) POST
+
+**Does:**
+
+* Creates a new dog in the database
+* Redirects to /dogs/<id> on success
+* Returns 400 on invalid age
+
+---
+
+## Route "Add a new cat" (/cats/add) GET
+
+**Shows:** Form for adding a new cat to the shelter.
+
+**Actions:**
+
+* Fill out the form
+* Submit to create a cat
+* _Cancel_ -> redirects to /cats
+
+**Elements:**
+
+* Form fields (name, age, breed, vaccines, indoor, etc.)
+* _Add Cat_ button
+* _Cancel_ button
+
+---
+
+## Route "Add a new cat" (/cats/add) POST
+
+**Does:**
+
+* Creates a new cat in the database
+* Redirects to /cats/<id> on success
+* Returns 400 on invalid age
+
+---
+
+## Route "A specific dog" (/dogs/<int:dog_id>) GET
+
+**Shows:** Detailed profile page for one dog.
+
+**Actions:**
+
+* Edit the dog
+* Delete the dog
+* Navigate to home or all dogs
+
+**Elements:**
+
+* Dog details (name, picture, breed, age, vaccines, size, character, notes)
+* _Edit_ button -> redirects to /dogs/<dog_id>/edit.
+* _Delete_ button -> submits POST to /dogs/<dog_id>/delete.
+* Navigation icons
 
 ---
 
 ## Route "A specific cat" (/cats/<int:cat_id>) GET
 
-**Shows:** Details page for a single cat.
+**Shows:** Detailed profile page for one cat.
 
 **Actions:**
 
-* Edit or delete this cat.
+* Edit the cat
+* Delete the cat
+* Navigate to home or all cats
 
 **Elements:**
 
-* Name, picture, and other info.
-* "Edit" button -> redirects to /cats/<cat_id>/edit.
-* "Delete" button -> submits POST to /cats/<cat_id>/delete.
+* Cat details (name, picture, breed, age, vaccines, indoor, litter trained, notes)
+* _Edit_ button -> redirects to /cats/<cat_id>/edit.
+* _Delete_ button -> submits POST to /cats/<cat_id>/delete.
+* Navigation icons
 
 ---
 
-## Route "Edit dog's information" (/dogs/<int:dog_id>/edit) GET + POST
+## Route "Edit dog information" (/dogs/<int:dog_id>/edit) GET
 
-**Shows:** Form page to edit dog information.
+**Shows:** Form pre-filled with the dog’s current information.
 
 **Actions:**
 
-* Fill out form and submit to update info.
-* Redirects to /dogs/<dog_id> after submission.
+* Update fields
+* Save changes
+* Cancel -> return to dog page
 
 **Elements:**
 
-* Form fields for name, picture URL, and other details.
-* Submit button: "Update Dog".
+* Edit form
+* _Save_ button
+* _Cancel_ button
 
 ---
 
-## Route "Edit cat's information" (/cats/<int:cat_id>/edit) GET + POST
+## Route "Edit dog information" (/dogs/<int:dog_id>/edit) POST
 
-**Shows:** Form page to edit cat information.
+**Does:**
+
+* Updates dog data in the database
+* Redirects to /dogs/<dog_id>
+
+---
+
+## Route "Edit cat's information" (/cats/<int:cat_id>/edit) GET 
+
+**Shows:** Form pre-filled with the cat’s current information.
 
 **Actions:**
 
-* Fill out form and submit to update info.
-* Redirects to /cats/<cat_id> after submission.
+* Update fields
+* Save changes
+* Cancel -> return to cat page
 
 **Elements:**
 
-* Form fields for name, picture URL, and other details.
-* Submit button: "Update Cat".
+* Edit form
+* _Save_ button
+* _Cancel_ button
+
+---
+
+## Route "Edit cat information" (/cats/<int:cat_id>/edit) POST
+
+**Does:**
+
+* Updates cat data in the database
+* Redirects to /cats/<cat_id>
 
 ---
 
 ## Route "Delete a dog" (/dogs/<int:dog_id>/delete) POST
-
-**Shows:** No page; action deletes dog and redirects.
 
 **Actions:**
 
@@ -121,13 +204,11 @@
 
 **Elements:**
 
-* "Delete" button (form submits POST).
+* _Delete_ button (POST form).
 
 ---
 
 ## Route "Delete a cat" (/cats/<int:cat_id>/delete) POST
-
-**Shows:** No page; action deletes cat and redirects.
 
 **Actions:**
 
@@ -136,4 +217,4 @@
 
 **Elements:**
 
-* "Delete" button (form submits POST).
+* _Delete_ button (POST form).
